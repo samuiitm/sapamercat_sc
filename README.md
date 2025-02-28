@@ -1,1 +1,1 @@
-# sapamercat_sc
+# SAPAMERCAT - Pràctica Collections Java
