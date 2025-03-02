@@ -3,9 +3,9 @@ package Model;
 public abstract class Producte {
     float preu;
     String nom;
-    int codiBarres;
+    String codiBarres;
 
-    public Producte(float preu, String nom, int codiBarres) {
+    public Producte(float preu, String nom, String codiBarres) {
         this.preu = preu;
         this.nom = nom;
         this.codiBarres = codiBarres;
@@ -19,8 +19,7 @@ public abstract class Producte {
         return nom;
     }
 
-
-    public int getCodiBarres() {
+    public String getCodiBarres() {
         return codiBarres;
     }
 

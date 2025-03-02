@@ -6,7 +6,7 @@ import java.time.Period;
 public class Alimentacio extends Producte {
     private final LocalDate dataCaducitat;
 
-    public Alimentacio(float preu, String nom, int codiBarres, LocalDate dataCaducitat) {
+    public Alimentacio(float preu, String nom, String codiBarres, LocalDate dataCaducitat) {
         super(preu, nom, codiBarres);
         this.dataCaducitat = dataCaducitat;
     }
