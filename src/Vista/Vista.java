@@ -1,5 +1,9 @@
 package Vista;
 
+import Model.Producte;
+
+import java.util.ArrayList;
+
 public class Vista {
     public static void mostrarMenuPrincipal() {
         System.out.println("BENVINGUT AL SAPAMERCAT");
@@ -17,6 +21,11 @@ public class Vista {
                            "2) Tèxtil\n" +
                            "3) Electrònica\n" +
                            "0) Tornar");
+    }
+
+    public static void mostrarCarret(ArrayList<Producte> carretCompra) {
+        carretCompra.forEach(System.out::println);
+        System.out.println();
     }
 
     public static void mostrarMissatge(String missatge) {

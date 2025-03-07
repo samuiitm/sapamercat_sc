@@ -125,6 +125,7 @@ public class Controlador {
     }
 
     private static void mostrarCarret() {
-
+        Vista.mostrarMissatge("Carret\n");
+        Vista.mostrarCarret(carretCompra);
     }
 }
