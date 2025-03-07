@@ -16,4 +16,9 @@ public class Textil extends Producte{
     public String getComposicioTextil() {
         return composicioTextil;
     }
+
+    @Override
+    public String toString() {
+        return String.format("TÈXTIL | Nom: %s | Preu: %.2f€ | Codi Barres: %s | Composició: %s", getNom(), getPreu(), getCodiBarres(), getComposicioTextil());
+    }
 }

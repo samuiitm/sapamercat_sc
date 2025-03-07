@@ -16,4 +16,9 @@ public class Electronica extends Producte{
     public float calcularPreu() {
         return preu + preu * (diesGarantia / 365f) * 0.1f;
     }
+
+    @Override
+    public String toString() {
+        return String.format("ELECTRÒNICA | Nom: %s | Preu: %.2f€ | Codi Barres: %s | Dies de garantia: %s", getNom(), calcularPreu(), getCodiBarres(), getDiesGarantia());
+    }
 }

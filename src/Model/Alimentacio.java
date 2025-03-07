@@ -30,6 +30,6 @@ public class Alimentacio extends Producte {
 
     @Override
     public String toString() {
-        return String.format("ALIMENTACIÓ | Nom: %s | Preu: %.2f€ | Codi Barres: %s | Data caducitat: %s", getNom(), getPreu(), getCodiBarres(), getDataCaducitat());
+        return String.format("ALIMENTACIÓ | Nom: %s | Preu: %.2f€ | Codi Barres: %s | Data caducitat: %s", getNom(), calcularPreu(), getCodiBarres(), getDataCaducitat());
     }
 }
