@@ -2,9 +2,11 @@ package Vista;
 
 import Model.Producte;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.SubmissionPublisher;
 
 public class Vista {
     public static void mostrarMenuPrincipal() {
@@ -25,6 +27,31 @@ public class Vista {
                            "0) Tornar");
     }
 
+    public static void mostrarTicketCompra(Map<Producte, Integer> carretCompra) {
+        LocalDate avui = LocalDate.now();
+        float subtotal = 0.0f;
+
+        System.out.println("--------------------------------\n" +
+                           "SAPAMERCAT\n" +
+                           "--------------------------------\n" +
+                           "Data: " + avui + "\n" +
+                           "--------------------------------");
+        for (Map.Entry<Producte, Integer> entry : carretCompra.entrySet()) {
+            Producte producte = entry.getKey();
+            int quantitat = entry.getValue();
+
+            float preuUnitari = producte.calcularPreu();
+            float preuTotal = preuUnitari * quantitat;
+
+            System.out.printf("%s\t\t%d  %.2f€ \t%.2f€\n", producte.getNom(), quantitat, preuUnitari, preuTotal);
+            subtotal += preuTotal;
+        }
+
+        System.out.println("--------------------------------");
+        System.out.printf("Total de la compra: %.2f€\n", subtotal);
+        System.out.println("--------------------------------");
+    }
+
     public static void mostrarCarret(Map<Producte, Integer> carretCompra) {
         if (carretCompra.isEmpty()) {
             System.out.println("El carret està buit.");
@@ -38,7 +65,6 @@ public class Vista {
         }
         System.out.println();
     }
-
 
     public static void mostrarMissatge(String missatge) {
         System.out.print(missatge);

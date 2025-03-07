@@ -5,7 +5,6 @@ import Vista.Vista;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -127,7 +126,8 @@ public class Controlador {
     }
 
     private static void passarPerCaixa() {
-
+        Vista.mostrarTicketCompra(carretCompra);
+        carretCompra.clear();
     }
 
     private static void mostrarCarret() {
