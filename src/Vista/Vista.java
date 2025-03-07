@@ -3,6 +3,8 @@ package Vista;
 import Model.Producte;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Vista {
     public static void mostrarMenuPrincipal() {
@@ -23,10 +25,20 @@ public class Vista {
                            "0) Tornar");
     }
 
-    public static void mostrarCarret(ArrayList<Producte> carretCompra) {
-        carretCompra.forEach(System.out::println);
+    public static void mostrarCarret(Map<Producte, Integer> carretCompra) {
+        if (carretCompra.isEmpty()) {
+            System.out.println("El carret està buit.");
+        } else {
+            System.out.println("Productes en el carret:");
+            for (Map.Entry<Producte, Integer> entry : carretCompra.entrySet()) {
+                Producte producte = entry.getKey();
+                int quantitat = entry.getValue();
+                System.out.println(producte.getNom() + " --> " + quantitat);
+            }
+        }
         System.out.println();
     }
+
 
     public static void mostrarMissatge(String missatge) {
         System.out.print(missatge);

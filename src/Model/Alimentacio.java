@@ -27,9 +27,4 @@ public class Alimentacio extends Producte {
     public LocalDate getDataCaducitat() {
         return dataCaducitat;
     }
-
-    @Override
-    public String toString() {
-        return String.format("ALIMENTACIÓ | Nom: %s | Preu: %.2f€ | Codi Barres: %s | Data caducitat: %s", getNom(), calcularPreu(), getCodiBarres(), getDataCaducitat());
-    }
 }

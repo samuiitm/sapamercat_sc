@@ -6,11 +6,13 @@ import Vista.Vista;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Controlador {
     public static Scanner scan = new Scanner(System.in);
-    public static ArrayList<Producte> carretCompra = new ArrayList<>();
+    public static Map<Producte, Integer> carretCompra = new HashMap<>();
 
     public static void main(String[] args) {
         int opcio;
@@ -69,7 +71,9 @@ public class Controlador {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
 
-                    carretCompra.add(new Alimentacio(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio));
+                    Alimentacio alimentacio = new Alimentacio(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
+                    Model.afegirAlCarret(carretCompra, alimentacio);
+
 
                     Vista.mostrarMissatge("Producte afegit al carret.\n");
                     break;
@@ -88,7 +92,8 @@ public class Controlador {
                     Vista.mostrarMissatge("Codi barres: ");
                     String codiTextil = scan.next();
 
-                    carretCompra.add(new Textil(preuTextil, nomTextil, codiTextil, composicioTextil));
+                    Textil textil = new Textil(preuTextil, nomTextil, codiTextil, composicioTextil);
+                    Model.afegirAlCarret(carretCompra, textil);
 
                     Vista.mostrarMissatge("Producte afegit al carret.\n");
                     break;
@@ -107,7 +112,8 @@ public class Controlador {
                     Vista.mostrarMissatge("Codi barres: ");
                     String codiElectronic = scan.next();
 
-                    carretCompra.add(new Electronica(preuElectronic, nomElectronic, codiElectronic, garantiaElectronic));
+                    Electronica electronica = new Electronica(preuElectronic, nomElectronic, codiElectronic, garantiaElectronic);
+                    Model.afegirAlCarret(carretCompra, electronica);
 
                     Vista.mostrarMissatge("Producte afegit al carret.\n");
                     break;
