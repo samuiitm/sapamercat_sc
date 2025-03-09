@@ -29,26 +29,24 @@ public class Vista {
 
     public static void mostrarTicketCompra(Map<Producte, Integer> carretCompra) {
         LocalDate avui = LocalDate.now();
-        float subtotal = 0.0f;
+        float[] subtotal = {0.0f};
 
         System.out.println("--------------------------------\n" +
-                           "SAPAMERCAT\n" +
-                           "--------------------------------\n" +
-                           "Data: " + avui + "\n" +
-                           "--------------------------------");
-        for (Map.Entry<Producte, Integer> entry : carretCompra.entrySet()) {
-            Producte producte = entry.getKey();
-            int quantitat = entry.getValue();
+                "SAPAMERCAT\n" +
+                "--------------------------------\n" +
+                "Data: " + avui + "\n" +
+                "--------------------------------");
 
+        carretCompra.forEach((producte, quantitat) -> {
             float preuUnitari = producte.calcularPreu();
             float preuTotal = preuUnitari * quantitat;
 
             System.out.printf("%s\t\t%d  %.2f€ \t%.2f€\n", producte.getNom(), quantitat, preuUnitari, preuTotal);
-            subtotal += preuTotal;
-        }
+            subtotal[0] += preuTotal;
+        });
 
         System.out.println("--------------------------------");
-        System.out.printf("Total de la compra: %.2f€\n", subtotal);
+        System.out.printf("Total de la compra: %.2f€\n", subtotal[0]);
         System.out.println("--------------------------------");
     }
 
