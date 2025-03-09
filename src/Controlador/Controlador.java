@@ -126,7 +126,18 @@ public class Controlador {
     }
 
     private static void passarPerCaixa() {
-        Vista.mostrarTicketCompra(carretCompra);
+        float totalCompra = 0.0f;
+
+        for (Map.Entry<Producte, Integer> entry : carretCompra.entrySet()) {
+            Producte producte = entry.getKey();
+            int quantitat = entry.getValue();
+
+            float preuUnitari = producte.calcularPreu();
+            totalCompra += preuUnitari * quantitat;
+        }
+
+        Vista.mostrarTicketCompra(carretCompra, totalCompra);
+
         carretCompra.clear();
     }
 

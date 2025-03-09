@@ -3,10 +3,7 @@ package Vista;
 import Model.Producte;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.SubmissionPublisher;
 
 public class Vista {
     public static void mostrarMenuPrincipal() {
@@ -27,10 +24,8 @@ public class Vista {
                            "0) Tornar");
     }
 
-    public static void mostrarTicketCompra(Map<Producte, Integer> carretCompra) {
+    public static void mostrarTicketCompra(Map<Producte, Integer> carretCompra, float totalCompra) {
         LocalDate avui = LocalDate.now();
-        float[] subtotal = {0.0f};
-
         System.out.println("--------------------------------\n" +
                 "SAPAMERCAT\n" +
                 "--------------------------------\n" +
@@ -42,11 +37,10 @@ public class Vista {
             float preuTotal = preuUnitari * quantitat;
 
             System.out.printf("%s\t\t%d  %.2f€ \t%.2f€\n", producte.getNom(), quantitat, preuUnitari, preuTotal);
-            subtotal[0] += preuTotal;
         });
 
         System.out.println("--------------------------------");
-        System.out.printf("Total de la compra: %.2f€\n", subtotal[0]);
+        System.out.printf("Total de la compra: %.2f€\n", totalCompra);
         System.out.println("--------------------------------");
     }
 

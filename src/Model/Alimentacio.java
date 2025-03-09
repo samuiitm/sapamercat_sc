@@ -3,7 +3,7 @@ package Model;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Alimentacio extends Producte {
+public class Alimentacio extends Producte implements Calculable {
     private final LocalDate dataCaducitat;
 
     public Alimentacio(float preu, String nom, String codiBarres, LocalDate dataCaducitat) {
@@ -21,7 +21,8 @@ public class Alimentacio extends Producte {
             return 0;
         }
 
-        return preu - (preu * (1.0f / (diesPerCaducar + 1))) + (preu * 0.1f);
+        float preuBase = getPreu();
+        return preuBase - (preuBase * (1.0f / (diesPerCaducar + 1))) + (preuBase * 0.1f);
     }
 
     public LocalDate getDataCaducitat() {

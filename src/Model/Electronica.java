@@ -1,6 +1,6 @@
 package Model;
 
-public class Electronica extends Producte{
+public class Electronica extends Producte implements Calculable{
     int diesGarantia;
 
     public Electronica(float preu, String nom, String codiBarres, int diesGarantia) {
