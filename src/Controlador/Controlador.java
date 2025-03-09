@@ -43,6 +43,26 @@ public class Controlador {
     }
 
     private static void gestionarMagatzem() {
+        int opcio;
+
+        do {
+            Vista.mostrarMenuGestioMagatzem();
+            opcio = scan.nextInt();
+
+            switch (opcio) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 0:
+                    break;
+                default:
+                    Vista.mostrarMissatge("Opció no vàlida.");
+                    break;
+            }
+        } while (opcio != 0);
     }
 
     private static void afegirProducte() {
