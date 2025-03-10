@@ -10,4 +10,8 @@ public class Model {
             carretCompra.put(producte, 1);
         }
     }
+
+    public static boolean existeixCodiBarres(Map<Producte, Integer> carretCompra, String codiBarres) {
+        return carretCompra.keySet().stream().anyMatch(p -> p.getCodiBarres().equals(codiBarres));
+    }
 }

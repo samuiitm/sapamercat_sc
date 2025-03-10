@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Objects;
 
-public abstract class Producte {
+public abstract class Producte implements Calculable {
     float preu;
     String nom;
     String codiBarres;
@@ -37,6 +37,4 @@ public abstract class Producte {
     public int hashCode() {
         return Objects.hash(codiBarres);
     }
-
-    public abstract float calcularPreu();
 }

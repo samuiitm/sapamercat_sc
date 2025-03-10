@@ -111,10 +111,13 @@ public class Controlador {
                     Vista.mostrarMissatge("Codi barres: ");
                     String codiTextil = scan.next();
 
-                    Textil textil = new Textil(preuTextil, nomTextil, codiTextil, composicioTextil);
-                    Model.afegirAlCarret(carretCompra, textil);
-
-                    Vista.mostrarMissatge("Producte afegit al carret.\n");
+                    if (Model.existeixCodiBarres(carretCompra, codiTextil)) {
+                        Vista.mostrarMissatge("No es pot afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n");
+                    } else {
+                        Textil textil = new Textil(preuTextil, nomTextil, codiTextil, composicioTextil);
+                        Model.afegirAlCarret(carretCompra, textil);
+                        Vista.mostrarMissatge("Producte afegit al carret.\n");
+                    }
                     break;
                 case 3:
                     Vista.mostrarMissatge("Afegir producte electrònic\n");
