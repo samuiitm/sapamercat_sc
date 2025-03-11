@@ -1,8 +1,10 @@
 package Vista;
 
 import Model.Producte;
+import Model.Tiquet;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class Vista {
@@ -17,11 +19,28 @@ public class Vista {
     }
 
     public static void mostrarMenuGestioMagatzem() {
-        System.out.println("------------\n-- GESTIO MAGATZEM ---\n------------");
+        System.out.println("----------------------\n-- GESTIO MAGATZEM ---\n----------------------");
         System.out.println("1) Caducitat\n" +
                 "2) Tiquets de compra\n" +
                 "3) Composició tèxtil\n" +
                 "0) Tornar");
+    }
+
+    public static void mostrarHistorialTiquets(List<Tiquet> historialTiquets) {
+        if (historialTiquets.isEmpty()) {
+            System.out.println("No s'ha guardat cap tiquet de compra");
+            return;
+        }
+
+        System.out.println("------------------------------------------\n----- HISTORIAL DE TIQUETS DE COMPRA -----\n------------------------------------------");
+        for (Tiquet tiquet : historialTiquets) {
+            System.out.println("Data de compra: " + tiquet.getDataCompra());
+            for (Map.Entry<Producte, Integer> entry : tiquet.getProductesComprats().entrySet()) {
+                System.out.printf("%s\t\t\t%d\t %.2f€\n", entry.getKey().getNom(), entry.getValue(), entry.getKey().calcularPreu());
+            }
+            System.out.printf("Total: \t\t%.2f€\n", tiquet.getTotalCompra());
+            System.out.println("------------------------------------------");
+        }
     }
 
     public static void mostrarMenuAfegirProducte() {

@@ -5,13 +5,11 @@ import Vista.Vista;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 public class Controlador {
     public static Scanner scan = new Scanner(System.in);
-    public static Map<Producte, Integer> carretCompra = new HashMap<>();
 
     public static void main(String[] args) {
         int opcio;
@@ -53,6 +51,7 @@ public class Controlador {
                 case 1:
                     break;
                 case 2:
+                    Vista.mostrarHistorialTiquets(Model.getTiquetsCompra());
                     break;
                 case 3:
                     break;
@@ -86,13 +85,18 @@ public class Controlador {
                     String codiAlimentacio = scan.next();
 
                     Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
-                    String caducitatAlimentacioString = scan.next();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    LocalDate caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
+                    LocalDate caducitatAlimentacio;
 
-                    Alimentacio alimentacio = new Alimentacio(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
-                    Model.afegirAlCarret(carretCompra, alimentacio);
+                    try {
+                        String caducitatAlimentacioString = scan.next();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("La data ha de ser en format 'dd/MM/yyyy'");
+                        break;
+                    }
 
+                    Model.afegirProducte(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
 
                     Vista.mostrarMissatge("Producte afegit al carret.\n");
                     break;
@@ -111,11 +115,11 @@ public class Controlador {
                     Vista.mostrarMissatge("Codi barres: ");
                     String codiTextil = scan.next();
 
-                    if (Model.existeixCodiBarres(carretCompra, codiTextil)) {
-                        Vista.mostrarMissatge("No es pot afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n");
+                    if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
+                        Vista.mostrarMissatge("No s'ha pogut afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n");
                     } else {
                         Textil textil = new Textil(preuTextil, nomTextil, codiTextil, composicioTextil);
-                        Model.afegirAlCarret(carretCompra, textil);
+                        Model.afegirAlCarret(Model.carretCompra, textil);
                         Vista.mostrarMissatge("Producte afegit al carret.\n");
                     }
                     break;
@@ -135,7 +139,7 @@ public class Controlador {
                     String codiElectronic = scan.next();
 
                     Electronica electronica = new Electronica(preuElectronic, nomElectronic, codiElectronic, garantiaElectronic);
-                    Model.afegirAlCarret(carretCompra, electronica);
+                    Model.afegirAlCarret(Model.carretCompra, electronica);
 
                     Vista.mostrarMissatge("Producte afegit al carret.\n");
                     break;
@@ -145,13 +149,17 @@ public class Controlador {
                     Vista.mostrarMissatge("Opció no vàlida.");
                     break;
             }
-        } while (opcio != 0);
+        } while (opcio != 0 && Model.carretCompra.size() != 100);
     }
 
     private static void passarPerCaixa() {
-        float totalCompra = 0.0f;
+        if (Model.carretCompra.isEmpty()) {
+            Vista.mostrarMissatge("El carret està buit.");
+            return;
+        }
 
-        for (Map.Entry<Producte, Integer> entry : carretCompra.entrySet()) {
+        float totalCompra = 0.0f;
+        for (Map.Entry<Producte, Integer> entry : Model.carretCompra.entrySet()) {
             Producte producte = entry.getKey();
             int quantitat = entry.getValue();
 
@@ -159,13 +167,18 @@ public class Controlador {
             totalCompra += preuUnitari * quantitat;
         }
 
-        Vista.mostrarTicketCompra(carretCompra, totalCompra);
+        Map<Producte, Integer> copiaCarret = new HashMap<>(Model.carretCompra);
 
-        carretCompra.clear();
+        Tiquet tiquet = new Tiquet(LocalDate.now(), copiaCarret, totalCompra);
+        Model.tiquetsCompra.add(tiquet);
+
+        Vista.mostrarTicketCompra(copiaCarret, totalCompra);
+        
+        Model.carretCompra.clear();
     }
 
     private static void mostrarCarret() {
         Vista.mostrarMissatge("Carret\n");
-        Vista.mostrarCarret(carretCompra);
+        Vista.mostrarCarret(Model.carretCompra);
     }
 }
