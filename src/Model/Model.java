@@ -1,5 +1,7 @@
 package Model;
 
+import Excepcions.LimitProductesException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,10 @@ public class Model {
     }
 
     public static void afegirAlCarret(Map<Producte, Integer> carretCompra, Producte producte) {
+        if (carretCompra.size() >= 3) {
+            throw new LimitProductesException("S'ha superat el límit de 100 productes al carret.");
+        }
+
         if (carretCompra.containsKey(producte)) {
             carretCompra.put(producte, carretCompra.get(producte) + 1);
         } else {

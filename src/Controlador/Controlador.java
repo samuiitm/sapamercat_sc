@@ -1,6 +1,6 @@
 package Controlador;
 
-import Excepcions.DataCaducitatException;
+import Excepcions.*;
 import Model.*;
 import Vista.Vista;
 
@@ -93,19 +93,24 @@ public class Controlador {
                             String caducitatAlimentacioString = scan.next();
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                             caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
+                            DataCaducitatException.verificarFechaCaducidad(caducitatAlimentacio);
                         } catch (DateTimeParseException e) {
-                            try {
-                                throw new DataCaducitatException("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho de nou.");
-                            } catch (DataCaducitatException e2) {
-                                Vista.mostrarMissatge(e2.getMessage() + "\n");
-                                Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
-                            }
+                            Vista.mostrarMissatge("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho de nou." + "\n");
+                            Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                        } catch (DataCaducitatException e) {
+                            Vista.mostrarMissatge(e.getMessage() + " Intenta-ho un altre cop." + "\n");
+                            Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                            caducitatAlimentacio = null;
                         }
                     }
 
-                    Model.afegirProducte(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
+                    try {
+                        Model.afegirProducte(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
+                    } catch (LimitProductesException e) {
+                        Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
+                    }
 
-                    Vista.mostrarMissatge("Producte afegit al carret.\n");
+                    Vista.mostrarMissatge("Producte afegit al carret.\n\n");
                     break;
                 case 2:
                     Vista.mostrarMissatge("Afegir producte tèxtil\n");
@@ -123,11 +128,15 @@ public class Controlador {
                     String codiTextil = scan.next();
 
                     if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
-                        Vista.mostrarMissatge("No s'ha pogut afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n");
+                        Vista.mostrarMissatge("No s'ha pogut afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n\n");
                     } else {
-                        Textil textil = new Textil(preuTextil, nomTextil, codiTextil, composicioTextil);
-                        Model.afegirAlCarret(Model.carretCompra, textil);
-                        Vista.mostrarMissatge("Producte afegit al carret.\n");
+                        try {
+                            Textil textil = new Textil(preuTextil, nomTextil, codiTextil, composicioTextil);
+                            Model.afegirAlCarret(Model.carretCompra, textil);
+                            Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                        } catch (LimitProductesException e) {
+                            Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
+                        }
                     }
                     break;
                 case 3:
@@ -145,18 +154,22 @@ public class Controlador {
                     Vista.mostrarMissatge("Codi barres: ");
                     String codiElectronic = scan.next();
 
-                    Electronica electronica = new Electronica(preuElectronic, nomElectronic, codiElectronic, garantiaElectronic);
-                    Model.afegirAlCarret(Model.carretCompra, electronica);
+                    try {
+                        Electronica electronica = new Electronica(preuElectronic, nomElectronic, codiElectronic, garantiaElectronic);
+                        Model.afegirAlCarret(Model.carretCompra, electronica);
+                        Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                    } catch (LimitProductesException e) {
+                        Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
+                    }
 
-                    Vista.mostrarMissatge("Producte afegit al carret.\n");
                     break;
                 case 0:
                     break;
                 default:
-                    Vista.mostrarMissatge("Opció no vàlida.");
+                    Vista.mostrarMissatge("Opció no vàlida.\n");
                     break;
             }
-        } while (opcio != 0 && Model.carretCompra.size() != 100);
+        } while (opcio != 0);
     }
 
     private static void passarPerCaixa() {
