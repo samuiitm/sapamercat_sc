@@ -94,8 +94,12 @@ public class Controlador {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                             caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
                         } catch (DateTimeParseException e) {
-                            Vista.mostrarMissatge("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho un altre cop.\n");
-                            Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                            try {
+                                throw new DataCaducitatException("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho de nou.");
+                            } catch (DataCaducitatException e2) {
+                                Vista.mostrarMissatge(e2.getMessage() + "\n");
+                                Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                            }
                         }
                     }
 
