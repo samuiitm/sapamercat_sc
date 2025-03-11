@@ -1,5 +1,6 @@
 package Controlador;
 
+import Excepcions.DataCaducitatException;
 import Model.*;
 import Vista.Vista;
 
@@ -85,15 +86,17 @@ public class Controlador {
                     String codiAlimentacio = scan.next();
 
                     Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
-                    LocalDate caducitatAlimentacio;
+                    LocalDate caducitatAlimentacio = null;
 
-                    try {
-                        String caducitatAlimentacioString = scan.next();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                        caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
-                    } catch (DateTimeParseException e) {
-                        System.out.println("La data ha de ser en format 'dd/MM/yyyy'");
-                        break;
+                    while (caducitatAlimentacio == null) {
+                        try {
+                            String caducitatAlimentacioString = scan.next();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
+                        } catch (DateTimeParseException e) {
+                            Vista.mostrarMissatge("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho un altre cop.\n");
+                            Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                        }
                     }
 
                     Model.afegirProducte(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
