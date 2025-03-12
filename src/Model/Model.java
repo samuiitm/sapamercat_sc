@@ -27,7 +27,7 @@ public class Model {
     }
 
     public static void afegirAlCarret(Map<Producte, Integer> carretCompra, Producte producte) {
-        if (carretCompra.size() >= 3) {
+        if (carretCompra.size() >= 100) {
             throw new LimitProductesException("S'ha superat el límit de 100 productes al carret.");
         }
 
