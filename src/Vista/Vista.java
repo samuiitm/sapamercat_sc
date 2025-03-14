@@ -38,7 +38,7 @@ public class Vista {
         for (Tiquet tiquet : historialTiquets) {
             System.out.println("Data de compra: " + tiquet.getDataCompra());
             for (Map.Entry<Producte, Integer> entry : tiquet.getProductesComprats().entrySet()) {
-                System.out.printf("%s\t\t\t%d\t %.2f€\n", entry.getKey().getNom(), entry.getValue(), entry.getKey().calcularPreu());
+                System.out.printf("%s\t\t\tx%d\t %.2f€\n", entry.getKey().getNom(), entry.getValue(), entry.getKey().calcularPreu());
             }
             System.out.printf("Total: \t\t%.2f€\n", tiquet.getTotalCompra());
             System.out.println("------------------------------------------");
@@ -68,7 +68,7 @@ public class Vista {
         carretCompra.forEach((producte, quantitat) -> {
             float preuUnitari = producte.calcularPreu();
             float preuProducte = preuUnitari * quantitat;
-            System.out.printf("%s\t\t%d  %.2f€ \t%.2f€\n", producte.getNom(), quantitat, preuUnitari, preuProducte);
+            System.out.printf("%s\t\tx%d  %.2f€ \t%.2f€\n", producte.getNom(), quantitat, preuUnitari, preuProducte);
         });
 
         System.out.println("--------------------------------");
