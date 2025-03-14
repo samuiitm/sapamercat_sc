@@ -103,21 +103,30 @@ public class Controlador {
 
                         Vista.mostrarMissatge("Nom producte: ");
                         String nomAlimentacio = scan.next();
+
                         Vista.mostrarMissatge("Preu: ");
                         float preuAlimentacio = scan.nextFloat();
+
                         Vista.mostrarMissatge("Codi barres: ");
                         String codiAlimentacio = scan.next();
 
                         Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
                         LocalDate caducitatAlimentacio = null;
+
                         while (caducitatAlimentacio == null) {
                             try {
                                 String caducitatAlimentacioString = scan.next();
                                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                                 caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
+
+                                // Comprovar si la data de caducitat és anterior a avui
+                                DataCaducitatException.verificarDataCaducitat(caducitatAlimentacio);
                             } catch (DateTimeParseException e) {
                                 Vista.mostrarMissatge("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho de nou.\n");
                                 Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                            } catch (DataCaducitatException e) {
+                                Vista.mostrarMissatge(e.getMessage() + "\nData de caducitat (dd/mm/aaaa):  ");
+                                caducitatAlimentacio = null; // Reiniciar per tornar a demanar la data
                             }
                         }
 
@@ -138,6 +147,7 @@ public class Controlador {
                         Vista.mostrarMissatge("Codi barres: ");
                         String codiTextil = scan.next();
 
+                        // Verificar si ja existeix un producte tèxtil amb aquest codi de barres
                         if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
                             Vista.mostrarMissatge("Ja existeix un producte tèxtil amb aquest codi de barres al carret.\n");
                         } else {
