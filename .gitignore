@@ -27,3 +27,25 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Maven ###
+target/
+
+### Gradle ###
+.gradle/
+build/
+
+### Logs ###
+*.log
+
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+
+### Others ###
+.idea/
+*.iml
+*.hprof
+*.swp
