@@ -138,8 +138,12 @@ public class Controlador {
                         Vista.mostrarMissatge("Codi barres: ");
                         String codiTextil = scan.next();
 
-                        Model.afegirProducteCarret(preuTextil, nomTextil, composicioTextil, codiTextil);
-                        Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                        if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
+                            Vista.mostrarMissatge("Ja existeix un producte tèxtil amb aquest codi de barres al carret.\n");
+                        } else {
+                            Model.afegirProducteCarret(preuTextil, nomTextil, codiTextil, composicioTextil);
+                            Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                        }
                         break;
 
                     case 3:
