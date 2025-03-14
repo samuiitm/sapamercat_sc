@@ -98,79 +98,123 @@ public class Controlador {
 
                 switch (opcio) {
                     case 1:
-                        // Afegir un producte d'alimentació
-                        Vista.mostrarMissatge("Afegir producte d'alimentació\n");
+                        try {
+                            Vista.mostrarMissatge("Afegir producte d'alimentació\n");
 
-                        Vista.mostrarMissatge("Nom producte: ");
-                        String nomAlimentacio = scan.next();
+                            Vista.mostrarMissatge("Nom producte: ");
+                            String nomAlimentacio = scan.next();
+                            if (nomAlimentacio.length() > 30)
+                                throw new LimitCaractersException("El nom del producte no pot superar els 30 caràcters");
 
-                        Vista.mostrarMissatge("Preu: ");
-                        float preuAlimentacio = scan.nextFloat();
+                            Vista.mostrarMissatge("Preu: ");
+                            float preuAlimentacio = scan.nextFloat();
+                            if (preuAlimentacio < 0) throw new NegatiuException("El preu no pot ser negatiu.");
 
-                        Vista.mostrarMissatge("Codi barres: ");
-                        String codiAlimentacio = scan.next();
+                            Vista.mostrarMissatge("Codi barres: ");
+                            String codiAlimentacio = scan.next();
 
-                        Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
-                        LocalDate caducitatAlimentacio = null;
+                            Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                            LocalDate caducitatAlimentacio = null;
 
-                        while (caducitatAlimentacio == null) {
-                            try {
-                                String caducitatAlimentacioString = scan.next();
-                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                                caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
-
-                                // Comprovar si la data de caducitat és anterior a avui
-                                DataCaducitatException.verificarDataCaducitat(caducitatAlimentacio);
-                            } catch (DateTimeParseException e) {
-                                Vista.mostrarMissatge("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho de nou.\n");
-                                Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
-                            } catch (DataCaducitatException e) {
-                                Vista.mostrarMissatge(e.getMessage() + "\nData de caducitat (dd/mm/aaaa):  ");
-                                caducitatAlimentacio = null; // Reiniciar per tornar a demanar la data
+                            while (caducitatAlimentacio == null) {
+                                try {
+                                    String caducitatAlimentacioString = scan.next();
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                    caducitatAlimentacio = LocalDate.parse(caducitatAlimentacioString, formatter);
+                                    DataCaducitatException.verificarDataCaducitat(caducitatAlimentacio);
+                                } catch (DateTimeParseException e) {
+                                    Vista.mostrarMissatge("La data ha de ser en format 'dd/MM/yyyy'. Intenta-ho de nou." + "\n");
+                                    Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                                } catch (DataCaducitatException e) {
+                                    Vista.mostrarMissatge(e.getMessage() + " Intenta-ho un altre cop." + "\n");
+                                    Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
+                                    caducitatAlimentacio = null;
+                                }
                             }
+                            try {
+                                Model.afegirProducteCarret(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
+                                Vista.mostrarMissatge("Producte afegit al carret.\n\n ");
+                            } catch (LimitProductesException e) {
+                                Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
+                            }
+                        } catch (NegatiuException | LimitCaractersException e) {
+                            Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                         }
-
-                        Model.afegirProducteCarret(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
-                        Vista.mostrarMissatge("Producte afegit al carret.\n\n ");
                         break;
 
                     case 2:
-                        // Afegir un producte tèxtil
-                        Vista.mostrarMissatge("Afegir producte tèxtil\n");
+                        try {
+                            Vista.mostrarMissatge("Afegir producte tèxtil\n");
 
-                        Vista.mostrarMissatge("Nom producte: ");
-                        String nomTextil = scan.next();
-                        Vista.mostrarMissatge("Preu: ");
-                        float preuTextil = scan.nextFloat();
-                        Vista.mostrarMissatge("Composició: ");
-                        String composicioTextil = scan.next();
-                        Vista.mostrarMissatge("Codi barres: ");
-                        String codiTextil = scan.next();
+                            Vista.mostrarMissatge("Nom producte: ");
+                            String nomTextil = scan.next();
+                            if (nomTextil.length() > 30)
+                                throw new LimitCaractersException("El nom del producte no pot superar els 30 caràcters");
 
-                        // Verificar si ja existeix un producte tèxtil amb aquest codi de barres
-                        if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
-                            Vista.mostrarMissatge("Ja existeix un producte tèxtil amb aquest codi de barres al carret.\n");
-                        } else {
-                            Model.afegirProducteCarret(preuTextil, nomTextil, codiTextil, composicioTextil);
-                            Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+
+                            Vista.mostrarMissatge("Preu: ");
+                            float preuTextil = scan.nextFloat();
+                            if (preuTextil < 0) throw new NegatiuException("El preu no pot ser negatiu.");
+
+                            Vista.mostrarMissatge("Composició: ");
+                            String composicioTextil = scan.next();
+                            if (composicioTextil.length() > 30)
+                                throw new LimitCaractersException("La composició del producte tèxtil no pot superar els 30 caràcters");
+
+                            Vista.mostrarMissatge("Codi barres: ");
+                            String codiTextil = scan.next();
+
+
+
+
+
+                            if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
+                                Vista.mostrarMissatge("No s'ha pogut afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n\n");
+                            } else {
+                                try {
+                                    if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
+                                        Vista.mostrarMissatge("Ja existeix un producte tèxtil amb aquest codi de barres al carret.\n");
+                                    } else {
+                                        Model.afegirProducteCarret(preuTextil, nomTextil, codiTextil, composicioTextil);
+                                        Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                                    }
+                                } catch (LimitProductesException e) {
+                                    Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
+                                }
+                            }
+                        } catch (NegatiuException | LimitCaractersException e) {
+                            Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                         }
                         break;
 
                     case 3:
-                        // Afegir un producte electrònic
-                        Vista.mostrarMissatge("Afegir producte electrònic\n");
+                        try {
+                            Vista.mostrarMissatge("Afegir producte electrònic\n");
 
-                        Vista.mostrarMissatge("Nom producte: ");
-                        String nomElectronic = scan.next();
-                        Vista.mostrarMissatge("Preu: ");
-                        float preuElectronic = scan.nextFloat();
-                        Vista.mostrarMissatge("Garantia (dies): ");
-                        int garantiaElectronic = scan.nextInt();
-                        Vista.mostrarMissatge("Codi barres: ");
-                        String codiElectronic = scan.next();
+                            Vista.mostrarMissatge("Nom producte: ");
+                            String nomElectronic = scan.next();
+                            if (nomElectronic.length() > 30)
+                                throw new LimitCaractersException("El nom del producte no pot superar els 30 caràcters");
 
-                        Model.afegirProducteCarret(nomElectronic, preuElectronic, garantiaElectronic, codiElectronic);
-                        Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                            Vista.mostrarMissatge("Preu: ");
+                            float preuElectronic = scan.nextFloat();
+                            if (preuElectronic < 0) throw new NegatiuException("El preu no pot ser negatiu.");
+
+                            Vista.mostrarMissatge("Garantia (dies): ");
+                            int garantiaElectronic = scan.nextInt();
+
+                            Vista.mostrarMissatge("Codi barres: ");
+                            String codiElectronic = scan.next();
+
+                            try {
+                                Model.afegirProducteCarret(nomElectronic, preuElectronic, garantiaElectronic, codiElectronic);
+                                Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                            } catch (LimitProductesException e) {
+                                Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
+                            }
+                        } catch (NegatiuException | LimitCaractersException e) {
+                            Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
+                        }
                         break;
 
                     case 0:
