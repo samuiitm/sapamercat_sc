@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Vista {
+    // MOSTRAR MENÚ PRINCIPAL DEL PROGRAMA
     public static void mostrarMenuPrincipal() {
         System.out.println("BENVINGUT AL SAPAMERCAT");
         System.out.println("------------\n-- INICI ---\n------------");
@@ -20,6 +21,7 @@ public class Vista {
                            "0) Acabar");
     }
 
+    // MOSTRAR MENÚ DE GESTIÓ DEL MAGATZEM
     public static void mostrarMenuGestioMagatzem() {
         System.out.println("----------------------\n-- GESTIO MAGATZEM ---\n----------------------");
         System.out.println("1) Caducitat\n" +
@@ -28,6 +30,7 @@ public class Vista {
                 "0) Tornar");
     }
 
+    // MOSTRAR HISTORIAL DE TIQUETS DE LA COMPRA
     public static void mostrarHistorialTiquets(List<Tiquet> historialTiquets) {
         if (historialTiquets.isEmpty()) {
             System.out.println("No s'ha guardat cap tiquet de compra");
@@ -45,6 +48,7 @@ public class Vista {
         }
     }
 
+    // MOSTRAR MENÚ PER AFEGIR PRODUCTES
     public static void mostrarMenuAfegirProducte() {
         System.out.println("---------------\n-- PRODUCTE ---\n---------------");
         System.out.println("1) Alimentació\n" +
@@ -53,10 +57,12 @@ public class Vista {
                            "0) Tornar");
     }
 
+    // MOSTRAR ELEMENTS DE TIPUS ALIMENTACIÓ DEL MAGATZEM ORDENATS
     public static void mostrarElementsCaducitat(List<Alimentacio> alimentacio) {
         alimentacio.forEach(System.out::println);
     }
 
+    // MOSTRAR EL TIQUET DE LA COMPRA ACTUAL
     public static void mostrarTicketCompra(Map<Producte, Integer> carretCompra, float totalCompra) {
         LocalDate avui = LocalDate.now();
         System.out.println("--------------------------------\n" +
@@ -76,10 +82,12 @@ public class Vista {
         System.out.println("--------------------------------");
     }
 
+    // MOSTRAR ELEMENTS DE TIPUS TÈXTIL ORDENATS
     public static void mostrarElementsTextil(List<Textil> textil) {
         textil.forEach(System.out::println);
     }
 
+    // MOSTRAR PRODUCTES DEL NOSTRE CARRET DE LA COMPRA ACTUAL
     public static void mostrarCarret(Map<Producte, Integer> carretCompra) {
         if (carretCompra.isEmpty()) {
             System.out.println("El carret està buit.");
@@ -94,6 +102,7 @@ public class Vista {
         System.out.println();
     }
 
+    // MÈTODE PER A MOSTRAR MISSATGES PERSONALITZATS
     public static void mostrarMissatge(String missatge) {
         System.out.print(missatge);
     }

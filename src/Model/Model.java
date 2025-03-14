@@ -7,10 +7,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Model {
-    public static Map<Producte, Integer> carretCompra = new HashMap<>();
-    public static List<Tiquet> tiquetsCompra = new ArrayList<>();
-    static List<Producte> productesMagatzem = new ArrayList<>();
+    public static Map<Producte, Integer> carretCompra = new HashMap<>(); // HashMap on es guardaran els productes a comprar
+    public static List<Tiquet> tiquetsCompra = new ArrayList<>(); // ArrayList on es guardaran els tiquets de compra
+    static List<Producte> productesMagatzem = new ArrayList<>(); // Arraylist on es guardaran els productes del magatzem
 
+    /**
+     * Mètode per a inicialitzar els productes del magatzem
+     */
     public static void inicialitzarProductes() {
         afegirProducteMagatzem(2.99f, "Llet", "101", LocalDate.of(2025, 3, 10));
         afegirProducteMagatzem(1.50f, "Pa", "102", LocalDate.of(2025, 3, 15));
@@ -46,6 +49,7 @@ public class Model {
         afegirProducteMagatzem(399.99f, "Tablet", "310", 128);
     }
 
+    // Mètodes polimòrfics per a afegir un tipus de producte un altre en funció dels paràmetres introduïts
     public static void afegirProducteMagatzem(float preu, String nom, String codiBarres, LocalDate caducitat) {
         productesMagatzem.add(new Alimentacio(preu, nom, codiBarres, caducitat));
     }
@@ -58,6 +62,10 @@ public class Model {
         productesMagatzem.add(new Electronica(preu, nom, codiBarres, garantia));
     }
 
+    /**
+     * Mètode per a filtrar els productes de tipus Alimentació per data de caducitat
+     * @return Una List de tipus Alimentació ordenada per data de caducitat
+     */
     public static List<Alimentacio> filtrarCaducitat() {
         List<Alimentacio> productesAlimentacio = new ArrayList<>();
         for (Object producte : productesMagatzem) {
@@ -69,6 +77,10 @@ public class Model {
         return productesAlimentacio;
     }
 
+    /**
+     * Mètode per filtrar els productes de tipus tèxtil per composició tèxtil
+     * @return Una List de tipus Tèxtil ordenada per composició tèxtil (A-Z)
+     */
     public static List<Textil> filtrarComposicio() {
         List<Textil> productesTextil = new ArrayList<>();
         for (Object producte : productesMagatzem) {
@@ -80,6 +92,7 @@ public class Model {
         return productesTextil;
     }
 
+    // Mètodes polimòrfics per afegir nous productes al carret de la compra en funció dels paràmetres introduïts
     public static void afegirProducteCarret(float preuAlimentacio, String nomAlimentacio, String codiAlimentacio, LocalDate caducitatAlimentacio) {
         Alimentacio alimentacio = new Alimentacio(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
         Model.afegirAlCarret(Model.carretCompra, alimentacio);
@@ -95,8 +108,9 @@ public class Model {
         Model.afegirAlCarret(Model.carretCompra, electronic);
     }
 
+    // Mètode per a fer comprovacions abans d'afegir el producte definitivament
     public static void afegirAlCarret(Map<Producte, Integer> carretCompra, Producte producte) {
-        if (carretCompra.size() >= 3) {
+        if (carretCompra.size() >= 100) {
             throw new LimitProductesException("S'ha superat el límit de 100 productes al carret.");
         }
 
@@ -107,12 +121,19 @@ public class Model {
         }
     }
 
+    /**
+     * Mètode que ens permet saber si existeix un producte tèxtil amb el codi de barres introduït
+     * @param carretCompra Map dels productes del carret de la compra
+     * @param codiBarres Codi de barres introduït
+     * @return True/false en funció de si existeix un producte tèxtil amb el codi de barres introduït
+     */
     public static boolean existeixCodiBarres(Map<Producte, Integer> carretCompra, String codiBarres) {
         return carretCompra.keySet().stream()
                 .filter(p -> p instanceof Textil)
                 .anyMatch(p -> p.getCodiBarres().equals(codiBarres));
     }
 
+    // GETTERS
     public static List<Tiquet> getTiquetsCompra() {
         return tiquetsCompra;
     }
