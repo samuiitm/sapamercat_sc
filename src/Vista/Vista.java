@@ -2,6 +2,7 @@ package Vista;
 
 import Model.Alimentacio;
 import Model.Producte;
+import Model.Textil;
 import Model.Tiquet;
 
 import java.time.LocalDate;
@@ -52,6 +53,10 @@ public class Vista {
                            "0) Tornar");
     }
 
+    public static void mostrarElementsCaducitat(List<Alimentacio> alimentacio) {
+        alimentacio.forEach(System.out::println);
+    }
+
     public static void mostrarTicketCompra(Map<Producte, Integer> carretCompra, float totalCompra) {
         LocalDate avui = LocalDate.now();
         System.out.println("--------------------------------\n" +
@@ -71,6 +76,10 @@ public class Vista {
         System.out.println("--------------------------------");
     }
 
+    public static void mostrarElementsTextil(List<Textil> textil) {
+        textil.forEach(System.out::println);
+    }
+
     public static void mostrarCarret(Map<Producte, Integer> carretCompra) {
         if (carretCompra.isEmpty()) {
             System.out.println("El carret està buit.");
@@ -87,9 +96,5 @@ public class Vista {
 
     public static void mostrarMissatge(String missatge) {
         System.out.print(missatge);
-    }
-
-    public static void mostrarElementsCaducitat(List<Alimentacio> alimentacio) {
-        alimentacio.forEach(System.out::println);
     }
 }

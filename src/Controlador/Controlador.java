@@ -58,6 +58,7 @@ public class Controlador {
                     Vista.mostrarHistorialTiquets(Model.getTiquetsCompra());
                     break;
                 case 3:
+                    Vista.mostrarElementsTextil(Model.filtrarComposicio());
                     break;
                 case 0:
                     break;
@@ -109,7 +110,7 @@ public class Controlador {
 
                     try {
                         Model.afegirProducteCarret(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
-                        Vista.mostrarMissatge("Producte afegit al carret.\n\n " + Model.getCarretCompra().size());
+                        Vista.mostrarMissatge("Producte afegit al carret.\n\n ");
                     } catch (LimitProductesException e) {
                         Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                     }
@@ -135,7 +136,7 @@ public class Controlador {
                     } else {
                         try {
                             Model.afegirProducteCarret(preuTextil ,nomTextil, composicioTextil, codiTextil);
-                            Vista.mostrarMissatge("Producte afegit al carret.\n\n" + Model.getCarretCompra().size());
+                            Vista.mostrarMissatge("Producte afegit al carret.\n\n");
                         } catch (LimitProductesException e) {
                             Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                         }
@@ -158,7 +159,7 @@ public class Controlador {
 
                     try {
                         Model.afegirProducteCarret(nomElectronic, preuElectronic, garantiaElectronic, codiElectronic);
-                        Vista.mostrarMissatge("Producte afegit al carret.\n\n" + Model.getCarretCompra().size());
+                        Vista.mostrarMissatge("Producte afegit al carret.\n\n");
                     } catch (LimitProductesException e) {
                         Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                     }

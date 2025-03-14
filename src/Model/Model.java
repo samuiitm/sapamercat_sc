@@ -69,6 +69,17 @@ public class Model {
         return productesAlimentacio;
     }
 
+    public static List<Textil> filtrarComposicio() {
+        List<Textil> productesTextil = new ArrayList<>();
+        for (Object producte : productesMagatzem) {
+            if (producte instanceof Textil) {
+                productesTextil.add((Textil) producte);
+            }
+        }
+        productesTextil.sort(Comparator.comparing(Textil::getComposicioTextil));
+        return productesTextil;
+    }
+
     public static void afegirProducteCarret(float preuAlimentacio, String nomAlimentacio, String codiAlimentacio, LocalDate caducitatAlimentacio) {
         Alimentacio alimentacio = new Alimentacio(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
         Model.afegirAlCarret(Model.carretCompra, alimentacio);
