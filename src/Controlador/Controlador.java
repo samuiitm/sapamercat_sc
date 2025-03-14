@@ -121,6 +121,11 @@ public class Controlador {
                             Vista.mostrarMissatge("Codi barres: ");
                             String codiAlimentacio = scan.next();
 
+                            // Comprovem que el codi de barres no sigui massa llarg
+                            if (codiAlimentacio.length() > 30)
+                                throw new LimitCaractersException("El codi de barres del producte no pot superar els 30 caràcters");
+
+
                             // Demanem la data de caducitat
                             Vista.mostrarMissatge("Data de caducitat (dd/mm/aaaa): ");
                             LocalDate caducitatAlimentacio = null;
@@ -188,6 +193,10 @@ public class Controlador {
                             Vista.mostrarMissatge("Codi barres: ");
                             String codiTextil = scan.next();
 
+                            // Comprovem que el codi de barres no sigui massa llarg
+                            if (codiTextil.length() > 30)
+                                throw new LimitCaractersException("El codi de barres del producte no pot superar els 30 caràcters");
+
                             // Comprovem si ja existeix un producte tèxtil amb aquest codi de barres
                             if (Model.existeixCodiBarres(Model.carretCompra, codiTextil)) {
                                 Vista.mostrarMissatge("No s'ha pogut afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n\n");
@@ -232,6 +241,10 @@ public class Controlador {
                             Vista.mostrarMissatge("Codi barres: ");
                             String codiElectronic = scan.next();
 
+                            // Comprovem que el codi de barres no sigui massa llarg
+                            if (codiElectronic.length() > 30)
+                                throw new LimitCaractersException("El codi de barres del producte no pot superar els 30 caràcters");
+
                             // Afegim el producte al carret
                             try {
                                 Model.afegirProducteCarret(nomElectronic, preuElectronic, garantiaElectronic, codiElectronic);
@@ -259,7 +272,7 @@ public class Controlador {
     private static void passarPerCaixa() {
         // Comprova si el carret està buit abans de passar per caixa
         if (Model.carretCompra.isEmpty()) {
-            Vista.mostrarMissatge("El carret està buit.");
+            Vista.mostrarMissatge("El carret està buit.\n\n");
             return;
         }
 

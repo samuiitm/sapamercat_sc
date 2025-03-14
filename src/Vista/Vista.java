@@ -33,7 +33,7 @@ public class Vista {
     // MOSTRAR HISTORIAL DE TIQUETS DE LA COMPRA
     public static void mostrarHistorialTiquets(List<Tiquet> historialTiquets) {
         if (historialTiquets.isEmpty()) {
-            System.out.println("No s'ha guardat cap tiquet de compra");
+            System.out.println("No s'ha guardat cap tiquet de compra\n");
             return;
         }
 
@@ -46,6 +46,7 @@ public class Vista {
             System.out.printf("Total: \t\t%.2f€\n", tiquet.getTotalCompra());
             System.out.println("------------------------------------------");
         }
+        System.out.println("");
     }
 
     // MOSTRAR MENÚ PER AFEGIR PRODUCTES
@@ -79,7 +80,7 @@ public class Vista {
 
         System.out.println("--------------------------------");
         System.out.printf("Total de la compra: %.2f€\n", totalCompra);
-        System.out.println("--------------------------------");
+        System.out.println("--------------------------------\n\n");
     }
 
     // MOSTRAR ELEMENTS DE TIPUS TÈXTIL ORDENATS
