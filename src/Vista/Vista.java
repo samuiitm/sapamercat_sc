@@ -1,5 +1,6 @@
 package Vista;
 
+import Model.Alimentacio;
 import Model.Producte;
 import Model.Tiquet;
 
@@ -86,5 +87,9 @@ public class Vista {
 
     public static void mostrarMissatge(String missatge) {
         System.out.print(missatge);
+    }
+
+    public static void mostrarElementsCaducitat(List<Alimentacio> alimentacio) {
+        alimentacio.forEach(System.out::println);
     }
 }

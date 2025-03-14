@@ -13,6 +13,8 @@ public class Controlador {
     public static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
+        Model.inicialitzarProductes();
+
         int opcio;
         do {
             Vista.mostrarMenuPrincipal();
@@ -50,6 +52,7 @@ public class Controlador {
 
             switch (opcio) {
                 case 1:
+                    Vista.mostrarElementsCaducitat(Model.filtrarCaducitat());
                     break;
                 case 2:
                     Vista.mostrarHistorialTiquets(Model.getTiquetsCompra());
@@ -105,12 +108,12 @@ public class Controlador {
                     }
 
                     try {
-                        Model.afegirProducte(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
+                        Model.afegirProducteCarret(preuAlimentacio, nomAlimentacio, codiAlimentacio, caducitatAlimentacio);
+                        Vista.mostrarMissatge("Producte afegit al carret.\n\n " + Model.getCarretCompra().size());
                     } catch (LimitProductesException e) {
                         Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                     }
 
-                    Vista.mostrarMissatge("Producte afegit al carret.\n\n");
                     break;
                 case 2:
                     Vista.mostrarMissatge("Afegir producte tèxtil\n");
@@ -131,9 +134,8 @@ public class Controlador {
                         Vista.mostrarMissatge("No s'ha pogut afegir el producte. Ja existeix un producte amb el mateix codi de barres.\n\n");
                     } else {
                         try {
-                            Textil textil = new Textil(preuTextil, nomTextil, codiTextil, composicioTextil);
-                            Model.afegirAlCarret(Model.carretCompra, textil);
-                            Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                            Model.afegirProducteCarret(preuTextil ,nomTextil, composicioTextil, codiTextil);
+                            Vista.mostrarMissatge("Producte afegit al carret.\n\n" + Model.getCarretCompra().size());
                         } catch (LimitProductesException e) {
                             Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                         }
@@ -155,9 +157,8 @@ public class Controlador {
                     String codiElectronic = scan.next();
 
                     try {
-                        Electronica electronica = new Electronica(preuElectronic, nomElectronic, codiElectronic, garantiaElectronic);
-                        Model.afegirAlCarret(Model.carretCompra, electronica);
-                        Vista.mostrarMissatge("Producte afegit al carret.\n\n");
+                        Model.afegirProducteCarret(nomElectronic, preuElectronic, garantiaElectronic, codiElectronic);
+                        Vista.mostrarMissatge("Producte afegit al carret.\n\n" + Model.getCarretCompra().size());
                     } catch (LimitProductesException e) {
                         Vista.mostrarMissatge("Error: " + e.getMessage() + "\n\n");
                     }
